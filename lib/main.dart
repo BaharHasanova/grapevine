@@ -92,7 +92,7 @@ class ProductPage extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          print("Buy Now pressed"); // Debugging statement
+                          // print("Buy Now pressed"); // Debugging statement
                           _showModalBottomSheet(
                               context); // This should trigger the bottom sheet
                         },
