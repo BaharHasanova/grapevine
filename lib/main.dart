@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'pages/checkout.dart';
+import 'package:flutter_test_application_1/pages/checkout.dart';
+// Ensure this is correctly imported based on your project structure
 
 void main() {
   runApp(const MyApp());
@@ -25,169 +26,285 @@ class ProductPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Page'),
-        backgroundColor: const Color(0xFF9683ce),
-        iconTheme: const IconThemeData(
-          color: Color(0xFF9683ce),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: SizedBox(
-              width: double.infinity,
-              child: Image.asset('path_to_your_image.png', fit: BoxFit.cover),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset('assets/calvin_klein_shirt.png'), // Your image path
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Calvin Klein Regular fit slim fit shirt',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  const Text('\$35 \$40.25 15% OFF',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red)),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 8,
+                    children: ['S', 'M', 'L', 'XL', 'XXL']
+                        .map((size) => Chip(
+                            label: Text(size),
+                            backgroundColor: Colors.grey[200]))
+                        .toList(),
+                  ),
+                  const SizedBox(height: 16),
+                  deliverySection(context),
+                  const SizedBox(height: 16),
+                  productDetailsSection(),
+                  const SizedBox(height: 16),
+                  ratingsAndReviewsSection(context),
+                  const SizedBox(height: 16),
+                  youMayLikeSection(),
+                  const SizedBox(height: 16),
+                  purchaseButtons(context),
+                  const SizedBox(height: 50),
+                ],
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  'Warm Zipper',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Hooded Jacket',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  '\$300.00',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF9683ce),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Cool, windy weather is on its way. Send him out the door in a jacket he wants to wear. Warm Zipper Hooded Jacket.',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF9683ce),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.shopping_cart,
-                            color: Colors.white),
-                        onPressed: () {
-                          // Add your action here for adding to cart
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // print("Buy Now pressed"); // Debugging statement
-                          _showModalBottomSheet(
-                              context); // This should trigger the bottom sheet
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xFF9683ce),
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: const Text('Buy Now',
-                            style: TextStyle(fontSize: 18)),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
+  Widget deliverySection(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('Deliver to Maine Inglewood - 98380'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  // Implement functionality to change delivery address
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF9683CE),
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Change'),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.calendar_today),
+              title: Text('Get it by Wed, Feb 02'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('COD Available'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.repeat),
+              title: Text('30 Days Exchange/ Return Available'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget productDetailsSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const ListTile(
+              title: Text('Product Details'),
+              subtitle: Text(
+                  'Fabric: Cotton\nLength: Regular\nNeck: Round Neck\nPattern: Graphic Print'),
+            ),
+            ListTile(
+              title: const Text('View More'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                // Implement view more details functionality
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget ratingsAndReviewsSection(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('4.8/5'),
+              subtitle: const Text('574 Ratings'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  // Implement rate functionality
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF9683CE),
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Rate'),
+              ),
+            ),
+            ListTile(
+              title: const Text('Amazing!'),
+              subtitle: const Text(
+                  'An amazing fit. I am somewhere around 6ft and ordered 40 size, it\'s a perfect fit and quality is worth the price...'),
+              onTap: () {
+                // Implement view all reviews functionality
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget youMayLikeSection() {
+    return const Card(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            // Implement similar products section
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget purchaseButtons(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton(
+            onPressed: () {
+              // Implement add to cart functionality
+            },
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(
+                  0xFF9683CE), // Use foregroundColor instead of primary
+              side: const BorderSide(
+                  color: Color(0xFF9683CE), width: 2.0), // Defines the border
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.circular(10.0), // Rounded corners
+              // ),
+            ),
+            child: const Text('Add to Cart'), // OutlinedButton
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              _showModalBottomSheet(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const CheckoutPage()),
+              // );
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF9683ce)),
+            child: const Text('Buy Now'),
+          ),
+        ),
+      ],
+    );
+  }
+
   void _showModalBottomSheet(BuildContext context) {
+    int? selectedSize; // Tracks the selected size index
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bottomSheetContext) {
-        return SingleChildScrollView(
-          // Makes the content scrollable
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Size:',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Wrap(
-                  spacing: 8, // Space between chips
-                  children: ['S', 'M', 'L', 'XL']
-                      .map((size) => ChoiceChip(
-                            label: Text(size),
-                            selected: false,
-                            onSelected: (bool selected) {
-                              // Handle size selection
-                            },
-                          ))
-                      .toList(),
-                ),
-                const SizedBox(height: 20),
-                const Text('Color:',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 8, // Space between color dots
-                  children:
-                      [Colors.red, Colors.green, Colors.blue, Colors.yellow]
-                          .map((color) => GestureDetector(
-                                onTap: () {
-                                  // Handle color selection
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: color,
-                                  radius: 15, // Size of the color dot
-                                ),
-                              ))
-                          .toList(),
-                ),
-                const SizedBox(height: 20),
-                const Text('Total Payment: \$40.00',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => const CheckoutPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF9683ce),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Select Size',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: const Text('Checkout', style: TextStyle(fontSize: 18)),
-                ),
-              ],
-            ),
-          ),
+                  RadioListTile<int>(
+                    title: const Text('S'),
+                    value: 0,
+                    groupValue: selectedSize,
+                    onChanged: (int? value) {
+                      setState(() => selectedSize = value);
+                    },
+                    activeColor: const Color(0xFF9683ce),
+                  ),
+                  RadioListTile<int>(
+                    title: const Text('M'),
+                    value: 1,
+                    groupValue: selectedSize,
+                    onChanged: (int? value) {
+                      setState(() => selectedSize = value);
+                    },
+                    activeColor: const Color(0xFF9683ce),
+                  ),
+                  RadioListTile<int>(
+                    title: const Text('L'),
+                    value: 2,
+                    groupValue: selectedSize,
+                    onChanged: (int? value) {
+                      setState(() => selectedSize = value);
+                    },
+                    activeColor: const Color(0xFF9683ce),
+                  ),
+                  RadioListTile<int>(
+                    title: const Text('XL'),
+                    value: 3,
+                    groupValue: selectedSize,
+                    onChanged: (int? value) {
+                      setState(() => selectedSize = value);
+                    },
+                    activeColor: const Color(0xFF9683ce),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: selectedSize != null
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CheckoutPage()),
+                            );
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF9683ce),
+                        minimumSize: const Size(double.infinity,
+                            50) // Ensure button stretches to full width
+                        ),
+                    child: const Text('Continue'),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
