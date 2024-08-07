@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application_1/pages/checkout.dart';
-// Ensure this is correctly imported based on your project structure
 
 void main() {
   runApp(const MyApp());
@@ -28,38 +27,40 @@ class ProductPage extends StatelessWidget {
         title: const Text('Product Page'),
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset('assets/calvin_klein_shirt.png'), // Your image path
+            // Ensure image path is correct and available
+            Image.asset('assets/calvin_klein_shirt.png'),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Calvin Klein Regular fit slim fit shirt',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Calvin Klein Regular fit slim fit shirt',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
-                  const Text('\$35 \$40.25 15% OFF',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red)),
+                  const Text(
+                    '\$35 \$40.25 15% OFF',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Wrap(
                     spacing: 8,
-                    children: ['S', 'M', 'L', 'XL', 'XXL']
-                        .map((size) => Chip(
-                            label: Text(size),
-                            backgroundColor: Colors.grey[200]))
-                        .toList(),
+                    children: ['S', 'M', 'L', 'XL', 'XXL'].map((size) {
+                      return Chip(
+                        label: Text(size),
+                        backgroundColor: Colors.grey[200],
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(height: 16),
                   deliverySection(context),
@@ -198,15 +199,10 @@ class ProductPage extends StatelessWidget {
               // Implement add to cart functionality
             },
             style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(
-                  0xFF9683CE), // Use foregroundColor instead of primary
-              side: const BorderSide(
-                  color: Color(0xFF9683CE), width: 2.0), // Defines the border
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(10.0), // Rounded corners
-              // ),
+              foregroundColor: const Color(0xFF9683CE),
+              side: const BorderSide(color: Color(0xFF9683CE), width: 2.0),
             ),
-            child: const Text('Add to Cart'), // OutlinedButton
+            child: const Text('Add to Cart'),
           ),
         ),
         const SizedBox(width: 10),
@@ -214,13 +210,10 @@ class ProductPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               _showModalBottomSheet(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const CheckoutPage()),
-              // );
             },
             style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF9683ce)),
+              backgroundColor: const Color(0xFF9683ce),
+            ),
             child: const Text('Buy Now'),
           ),
         ),
@@ -229,7 +222,9 @@ class ProductPage extends StatelessWidget {
   }
 
   void _showModalBottomSheet(BuildContext context) {
-    int? selectedSize; // Tracks the selected size index
+    int? selectedSize;
+    List<String> sizes = ['S', 'M', 'L', 'XL'];
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bottomSheetContext) {
@@ -247,42 +242,17 @@ class ProductPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  RadioListTile<int>(
-                    title: const Text('S'),
-                    value: 0,
-                    groupValue: selectedSize,
-                    onChanged: (int? value) {
-                      setState(() => selectedSize = value);
-                    },
-                    activeColor: const Color(0xFF9683ce),
-                  ),
-                  RadioListTile<int>(
-                    title: const Text('M'),
-                    value: 1,
-                    groupValue: selectedSize,
-                    onChanged: (int? value) {
-                      setState(() => selectedSize = value);
-                    },
-                    activeColor: const Color(0xFF9683ce),
-                  ),
-                  RadioListTile<int>(
-                    title: const Text('L'),
-                    value: 2,
-                    groupValue: selectedSize,
-                    onChanged: (int? value) {
-                      setState(() => selectedSize = value);
-                    },
-                    activeColor: const Color(0xFF9683ce),
-                  ),
-                  RadioListTile<int>(
-                    title: const Text('XL'),
-                    value: 3,
-                    groupValue: selectedSize,
-                    onChanged: (int? value) {
-                      setState(() => selectedSize = value);
-                    },
-                    activeColor: const Color(0xFF9683ce),
-                  ),
+                  ...List.generate(sizes.length, (index) {
+                    return RadioListTile<int>(
+                      title: Text(sizes[index]),
+                      value: index,
+                      groupValue: selectedSize,
+                      onChanged: (int? value) {
+                        setState(() => selectedSize = value);
+                      },
+                      activeColor: const Color(0xFF9683ce),
+                    );
+                  }),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: selectedSize != null
@@ -290,15 +260,17 @@ class ProductPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const CheckoutPage()),
+                                builder: (context) => CheckoutPage(
+                                  selectedSize: sizes[selectedSize!],
+                                ),
+                              ),
                             );
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF9683ce),
-                        minimumSize: const Size(double.infinity,
-                            50) // Ensure button stretches to full width
-                        ),
+                      backgroundColor: const Color(0xFF9683ce),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
                     child: const Text('Continue'),
                   ),
                 ],
